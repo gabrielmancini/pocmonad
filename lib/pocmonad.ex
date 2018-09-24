@@ -148,3 +148,24 @@ defmodule Pocmonad.Opus do
   end
 
 end
+
+defmodule Pocmonad.Happy do
+  import Happy
+
+  def try1() do
+    happy_path do
+      {:ok, list} = LibTT.filter(1..9)
+      {:ok, reduced} = LibTT.reduce(list)
+      {:ok, reduced}
+    end
+  end
+  def try2() do
+    happy_path do
+      {:ok, list} = LibTT.filter_error(1..9)
+      {:ok, reduced} = LibTT.reduce(list)
+      {:ok, reduced}
+    else
+      {:error, x} -> {:error, x}
+    end
+  end
+end

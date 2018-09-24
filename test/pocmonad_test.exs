@@ -36,4 +36,9 @@ defmodule PocmonadTest do
     assert {:error, %Opus.PipelineError{error: :error_m}} = Pocmonad.Opus.Try2.call(1..9)
   end
 
+  test "Happy" do
+    assert {:ok, 23} = Pocmonad.Happy.try1()
+    assert {:error, :error_n} = Pocmonad.Happy.try2()
+  end
+
 end

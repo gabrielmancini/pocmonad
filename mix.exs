@@ -24,7 +24,8 @@ defmodule Pocmonad.MixProject do
       {:ok, "~> 2.0"},
       {:monadex, "~> 1.1"},
       {:wormhole, "~> 2.2"},
-      {:opus, "~> 0.5.1"}
+      {:opus, "~> 0.5.1"},
+      {:happy, "~> 1.3"}
     ]
   end
 end
