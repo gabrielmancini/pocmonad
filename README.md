@@ -19,7 +19,7 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/pocmonad](https://hexdocs.pm/pocmonad).
 
-## to publish docs
+## Publish docs
 
 First put this into a file called post-commit in <your_project>/.git/hooks
 
