@@ -296,6 +296,7 @@ defmodule Pocmonad.Rop do
 end
 
 defmodule Pocmonad.Macro do
+  @moduledoc false
   defmacro left ~>> right do
     quote do
       case unquote(left) do
@@ -306,13 +307,47 @@ defmodule Pocmonad.Macro do
   end
 end
 defmodule Pocmonad.RopMacro do
-  import Pocmonad.Macro
+  @moduledoc """
+  This is the [RopMacro](https://zohaib.me/railway-programming-pattern-in-elixir/) module,
+  The Elixir Pipeline with potatoes and macros.
 
+  ** Pros **:
+  - Pure Elixir implementation
+  - Catch and treat errors inside the block
+  - Pipeline Elixir Way
+  - Follow ideas behind Erlang
+  - Easy to read
+  - Dont need to implement the error side of all methods
+
+  ** Cons **:
+  - Home made solution
+  - Must mantain the macros
+  - Strange simbol `~>>`
+  """
+  import Pocmonad.Macro
+  @doc """
+  - input `{:ok, any}` call returns `{:ok, any}`;
+
+  ## Examples
+  ```
+  iex> Pocmonad.RopMacro.try1()
+  {:ok, 23}
+  ```
+  """
   def try1() do
     {:ok, 1..9}
       ~>> LibTT.filter
       ~>> LibTT.reduce
   end
+  @doc """
+  - input `{:ok, any}` call returns `{:error, Reason}`.
+
+  ## Examples
+  ```
+  iex> Pocmonad.RopMacro.try2()
+  {:error, :error_n}
+  ```
+  """
   def try2() do
     {:ok, 1..9}
       ~>> LibTT.filter_error
@@ -321,15 +356,56 @@ defmodule Pocmonad.RopMacro do
 end
 
 defmodule Pocmonad.Opus do
+  @moduledoc """
+  This is the [Opus](https://github.com/Zorbash/opus) module,
+  A framework for pluggable business logic components
+
+  HEX
+  ```
+  {:opus, "~> 0.5.1"}
+  ```
+  ** Pros **:
+  - Each Opus pipeline module has a single entry point and returns tagged tuples {:ok, value} | {:error, error}
+  - A pipeline is a composition of stateless stages
+  - A stage returning {:error, _} halts the pipeline
+  - A stage may be skipped based on a condition function (:if option)
+  - Exceptions are converted to {:error, error} tuples by default
+  - An exception may be left to raise using the :raise option
+  - Each stage of the pipeline is instrumented. Metrics are captured automatically (but can be disabled).
+  - Errors are meaningful and predictable.
+
+  ** Cons **:
+  - Very oppinied
+  - Create a mess on documentation
+  - Dont follow the pipeline way
+  - necessary hack to work properly
+  - its not a lib, its a framework have the own way
+  """
   defmodule Try1 do
     use Opus.Pipeline
+    @moduledoc """
+    - input `{:ok, any}` call returns `{:ok, any}`;
 
+    ## Examples
+    ```
+    iex> Pocmonad.Opus.try(1..9)
+    {:ok, 23}
+    ```
+    """
     step  :filter, with: &Lib.filter/1
     step  :reduce, with: &Lib.reduce/1
   end
   defmodule Try2 do
     use Opus.Pipeline
+    @moduledoc """
+    - input `{:ok, any}` call returns `{:error, Reason}`.
 
+    ## Examples
+    ```
+    iex> Pocmonad.Opus.try2(1..9)
+    {:error, :error_n}
+    ```
+    """
     step  :filter, with: &Lib.filter_error/1
     step  :reduce, with: &Lib.reduce/1, error_message: :error_m
   end
@@ -337,8 +413,33 @@ defmodule Pocmonad.Opus do
 end
 
 defmodule Pocmonad.Happy do
-  import Happy
+  @moduledoc """
+  This is the [Happy](https://github.com/vic/happy) module,
+  Ok, so I was just trying to find a nice way (beautiful syntax, yet flexible enough) to handle errors in elixir. Handling :ok/:error like tuples without lots of if/cases.
 
+  HEX
+  ```
+  {:happy, "~> 1.3"}
+  ```
+  ** Pros **:
+  - Clean to read
+  - Its kind of with but less oppinied
+
+  ** Cons **:
+  - Implementation given for other people
+  - Not follow the pipeline way
+  - sounds like framework and not lib
+  """
+  import Happy
+  @doc """
+  - input `{:ok, any}` call returns `{:ok, any}`;
+
+  ## Examples
+  ```
+  iex> Pocmonad.Happy.try1()
+  {:ok, 23}
+  ```
+  """
   def try1() do
     happy_path do
       {:ok, list} = LibTT.filter(1..9)
@@ -346,6 +447,15 @@ defmodule Pocmonad.Happy do
       {:ok, reduced}
     end
   end
+  @doc """
+  - input `{:ok, any}` call returns `{:ok, any}`;
+
+  ## Examples
+  ```
+  iex> Pocmonad.Happy.try1()
+  {:ok, 23}
+  ```
+  """
   def try2() do
     happy_path do
       {:ok, list} = LibTT.filter_error(1..9)

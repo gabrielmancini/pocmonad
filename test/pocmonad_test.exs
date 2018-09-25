@@ -31,16 +31,19 @@ defmodule PocmonadTest do
     assert {:error, :error_n} = Pocmonad.Rop.try2()
   end
 
+  doctest Pocmonad.RopMacro
   test "RopMacro" do
     assert {:ok, 23} = Pocmonad.RopMacro.try1()
     assert {:error, :error_n} = Pocmonad.RopMacro.try2()
   end
 
+  doctest Pocmonad.Opus
   test "Opus" do
     assert {:ok, 23} = Pocmonad.Opus.Try1.call(1..9)
     assert {:error, %Opus.PipelineError{error: :error_m}} = Pocmonad.Opus.Try2.call(1..9)
   end
 
+  doctest Pocmonad.Happy
   test "Happy" do
     assert {:ok, 23} = Pocmonad.Happy.try1()
     assert {:error, :error_n} = Pocmonad.Happy.try2()
