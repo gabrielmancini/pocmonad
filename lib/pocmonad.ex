@@ -31,13 +31,48 @@ defmodule LibForRopTT do
 end
 
 defmodule Pocmonad.Ok do
-  use OK.Pipe
+  @moduledoc """
+  This is the [OK](https://github.com/CrowdHailer/OK) module,
+  Elegant error/exception handling in Elixir, with result monads.
 
+
+  HEX
+  ```
+  {:ok, "~> 2.0"}
+  ```
+  ** Pros **:
+  - Easy to implement
+  - Popular solution
+
+  ** Cons **:
+  - Implementation given for other people
+  - Strange simbol `~>>`
+
+  """
+  use OK.Pipe
+  @doc """
+  - input `{:ok, any}` call returns `{:ok, any}`;
+
+  ## Examples
+  ```
+  iex> Pocmonad.Ok.try1()
+  {:ok, 23}
+  ```
+  """
   def try1() do
     {:ok, 1..9}
       ~>> LibTT.filter
       ~>> LibTT.reduce
   end
+  @doc """
+  - input `{:ok, any}` call returns `{:error, Reason}`.
+
+  ## Examples
+  ```
+  iex> Pocmonad.Ok.try2()
+  {:error, :error_n}
+  ```
+  """
   def try2() do
     {:ok, 1..9}
       ~>> LibTT.filter_error
@@ -79,7 +114,6 @@ defmodule Pocmonad.Wormhole do
 end
 
 defmodule Pocmonad.With do
-
   def try1() do
     with {:ok, list} <- LibTT.filter(1..9),
          {:ok, reduced} <- LibTT.reduce(list), do: {:ok, reduced}
@@ -95,7 +129,6 @@ defmodule Pocmonad.With do
 end
 
 defmodule Pocmonad.Rop do
-
   def try1() do
     {:ok, 1..9}
       |> LibForRopTT.filter
@@ -164,8 +197,6 @@ defmodule Pocmonad.Happy do
       {:ok, list} = LibTT.filter_error(1..9)
       {:ok, reduced} = LibTT.reduce(list)
       {:ok, reduced}
-    else
-      {:error, x} -> {:error, x}
     end
   end
 end

@@ -21,6 +21,7 @@ defmodule Pocmonad.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ex_doc, "~> 0.18.0", only: :dev, runtime: false},
       {:ok, "~> 2.0"},
       {:monadex, "~> 1.1"},
       {:wormhole, "~> 2.2"},

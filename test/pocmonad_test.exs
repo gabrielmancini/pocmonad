@@ -1,5 +1,6 @@
 defmodule PocmonadTest do
   use ExUnit.Case
+  doctest Pocmonad.Ok
 
   test "Ok" do
     assert {:ok, 23} = Pocmonad.Ok.try1()
