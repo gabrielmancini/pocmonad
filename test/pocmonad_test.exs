@@ -1,27 +1,31 @@
 defmodule PocmonadTest do
   use ExUnit.Case
-  doctest Pocmonad.Ok
 
+  doctest Pocmonad.Ok
   test "Ok" do
     assert {:ok, 23} = Pocmonad.Ok.try1()
     assert {:error, :error_n} = Pocmonad.Ok.try2()
   end
 
+  doctest Pocmonad.MonadEx
   test "MonadEx" do
     assert {:ok, 23} = Pocmonad.MonadEx.try1()
     assert {:error, :error_n} = Pocmonad.MonadEx.try2()
   end
 
+  doctest Pocmonad.Wormhole
   test "Wormhole" do
     assert {:ok, 23} = Pocmonad.Wormhole.try1()
     assert {:error, {:shutdown, %Protocol.UndefinedError{}}} = Pocmonad.Wormhole.try2()
   end
 
+  doctest Pocmonad.With
   test "With" do
     assert {:ok, 23} = Pocmonad.With.try1()
     assert {:error, :error_m} = Pocmonad.With.try2()
   end
 
+  doctest Pocmonad.Rop
   test "Rop" do
     assert {:ok, 23} = Pocmonad.Rop.try1()
     assert {:error, :error_n} = Pocmonad.Rop.try2()
